@@ -12,7 +12,7 @@ function validate($parm, $default) {
 
 ?>
 
-var left_start = 0;
+var left_start = -3;
 var top_start = 15;
 var bottom_height = 0;
 var width = 312;
@@ -21,10 +21,9 @@ var height = 200;
 var label_start_x = 20;
 var label_start_y = top_start + 0.5 - 7;
 
-var max = 8033;
-var max_infections = 8033;
-var max_deaths = 3879;
-var max_date = "2014-10-08";
+var max_infections = <?php echo $range["infections"]["max"] ?>;
+var max_deaths = <?php echo $range["deaths"]["max"] ?>;
+var max_date = "<?php echo $data[count($data)-1]["date"] ?>";
 
 var language = {
 	infections: "<?php validate("infections", "Infections"); ?>",
@@ -33,8 +32,8 @@ var language = {
 }
 
 var styles = {
-    infections: { fill: '90-#fff-#6f0f0c', 'stroke-width': 1, stroke: 'white' },
-    deaths: { fill: '90-#fff-black', 'stroke-width': 1, stroke: 'white' },
+    infections: { fill: '90-#fff-#6f0f0c', 'stroke-width': 0, stroke: 'white' },
+    deaths: { fill: '90-#fff-black', 'stroke-width': 0, stroke: 'white' },
     action: { fill: 'white', opacity: 0 },
     hover: { fill: 'black' },
 	legend: {
@@ -49,9 +48,9 @@ var p = Raphael("ebola_graph", 308, height);
 
 // simple scaling function
 function xy_point(val, i, total) {
-    var h = 0.5+(height/max) * val;
+    var h = 0.5+(height/max_infections) * val;
     var x = left_start + (width / total) * i;
-    var w = (width / total) - 4;
+    var w = (width / total) - 0.5;
     var y = top_start + 0.5+height - h;
 
     return({ x: x, y: y, w: w, h: h });
@@ -98,7 +97,7 @@ for( i = 0; i < data.length; i++ )(function(point, i, total) {
 
     var rect_a = p.rect(a.x, a.y, a.w, a.h).attr(styles.infections);
     var rect_b = p.rect(b.x, b.y, b.w, b.h).attr(styles.deaths);
-	
+
     p.rect(
         a.x, 0, a.x + a.w, height
     ).attr(styles.action).mouseover(function() {
