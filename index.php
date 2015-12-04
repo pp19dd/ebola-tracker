@@ -3,6 +3,7 @@
 <head>
     <title>Ebola Tracker - VOA</title>
 	<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta name="robots" content="noindex" />
     <script src="raphael-min.js"></script>
     <style>
     html, body {overflow: hidden; margin:0; padding:0}
